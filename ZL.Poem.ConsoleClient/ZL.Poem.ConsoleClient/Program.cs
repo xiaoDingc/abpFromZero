@@ -19,7 +19,7 @@ namespace ZL.Poem.ConsoleClient
                 //从容器中获取Service对象,并执行相应的函数
                 var service=IocManager.Instance.Resolve<Service>();
                 service.Run();
-
+                Console.WriteLine("AllOK");
                 Console.ReadKey();
             }
         }
