@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
 using Abp.Modules;
+using ZL.Poem.Application;
 using ZL.Poem.Core;
 using ZL.Poem.EF;
 
 namespace ZL.Poem.ConsoleClient
 {
     [DependsOn(typeof(PoetDataModule),
-        typeof(PoemCoreModule)
+        typeof(PoemApplicationModule)
         )]
     public class PoemConsoleClientModule:AbpModule
     {
