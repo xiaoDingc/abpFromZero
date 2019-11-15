@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Abp" Version="4.10.0" />
+    <PackageReference Include="Abp.AutoMapper" Version="4.10.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ZL.Poem.Application\ZL.Poem.Application.csproj" />
     <ProjectReference Include="..\ZL.Poem.Core\ZL.Poem.Core.csproj" />
-    <ProjectReference Include="..\ZL.Poem.EF\ZL.Poem.EF.csproj" />
   </ItemGroup>
 
 </Project>
