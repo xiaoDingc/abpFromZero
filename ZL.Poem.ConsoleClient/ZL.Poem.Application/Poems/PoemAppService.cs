@@ -11,11 +11,11 @@ using ZL.Poem.Core.Poems;
 
 namespace ZL.Poem.Application.Poems
 {
-    public class PoetAppService:ApplicationService,IPoetAppService
+    public class PoemAppService:ApplicationService,IPoetAppService
     {
         private  readonly  IRepository<Poet>  _poetRepository;
 
-        public PoetAppService(IRepository<Poet> poetRepository)
+        public PoemAppService(IRepository<Poet> poetRepository)
         {
             _poetRepository = poetRepository;
         }
