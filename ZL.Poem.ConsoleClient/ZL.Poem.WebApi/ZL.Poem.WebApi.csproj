@@ -5,6 +5,11 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Controllers\**" />
     <Content Remove="Controllers\**" />

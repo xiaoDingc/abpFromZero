@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.AspNetCore;
@@ -30,22 +31,22 @@ namespace ZL.Poem.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             #region Swagger
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v4.1.0",
-                    Title = "Ray WebAPI",
-                    Description = "框架集合",
-                    TermsOfService = "None",
-                    Contact = new Swashbuckle.AspNetCore.Swagger.Contact { Name = "Blommor", Email = "645302361@qq.com", Url = "https://blog.csdn.net/lxysoid" }
-                });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Poem API", Version = "v1" });
+                c.DocInclusionPredicate((docName, description) => true);
+
+                var baseUrl = AppDomain.CurrentDomain.BaseDirectory;
+                var commentsFileName = @"ZL.Poem.Application.xml";
+                var url = Path.Combine(baseUrl, commentsFileName);
+                c.IncludeXmlComments(url);
             });
             #endregion
             return services.AddAbp<PoemWebApiModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
         {
 
             app.UseAbp();
@@ -62,13 +63,28 @@ namespace ZL.Poem.WebApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            //
+            //            lifetime.ApplicationStarted.Register(()=>
+            //            {
+            //                Console.WriteLine("started:....");
+            //            });
+            //
+            //            lifetime.ApplicationStopped.Register(()=>
+            //            {
+            //                Console.WriteLine("stopped.....");
+            //            });
+            //            lifetime.ApplicationStopping.Register(()=>
+            //            {
+            //                Console.WriteLine("Stopping...");
+            //            });
 
-             #region Swagger
+            #region Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
             });
+
             #endregion
         }
     }

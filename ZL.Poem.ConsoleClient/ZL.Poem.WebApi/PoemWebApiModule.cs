@@ -15,7 +15,7 @@ using ZL.Poem.EF;
 namespace ZL.Poem.WebApi
 {
     [DependsOn(typeof(PoetDataModule),
-       typeof(PoemApplicationModule),
+       typeof(PoetApplicationModule),
         typeof(AbpAspNetCoreModule))]
     public class PoemWebApiModule:AbpModule
     {
@@ -36,15 +36,12 @@ namespace ZL.Poem.WebApi
 
         public override void Initialize()
         {
+
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
 
             //创建动态Web Api
-            Configuration.Modules.AbpAspNetCore().CreateControllersForAppServices(typeof(PoemApplicationModule).Assembly, moduleName: "app", useConventionalHttpVerbs: false);
+            Configuration.Modules.AbpAspNetCore().CreateControllersForAppServices(typeof(PoetApplicationModule).Assembly, moduleName: "app", useConventionalHttpVerbs: false);
 
-           // IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
-           // //创建动态Web Api
-           // Configuration.Modules.AbpAspNetCore().CreateControllersForAppServices(typeof(PoemApplicationModule).Assembly, moduleName: "app", useConventionalHttpVerbs: false);
-           //// base.Initialize();
         }
     }
 }

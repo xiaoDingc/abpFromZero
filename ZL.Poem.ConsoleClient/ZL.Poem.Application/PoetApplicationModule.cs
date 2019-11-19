@@ -1,15 +1,14 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using Abp.AutoMapper;
 using Abp.Modules;
-using ZL.Poem.Application;
+using ZL.Poem.Application.Poems;
 using ZL.Poem.Core;
-using ZL.Poem.EF;
 
-namespace ZL.Poem.ConsoleClient
+namespace ZL.Poem.Application
 {
-    [DependsOn(typeof(PoetDataModule),
-        typeof(PoetApplicationModule)
-        )]
-    public class PoemConsoleClientModule:AbpModule
+    [DependsOn(typeof(PoemCoreModule),typeof(AbpAutoMapperModule))]
+    public class PoetApplicationModule:AbpModule
     {
         /// <summary>
         /// This is the first event called on application startup.
@@ -17,7 +16,11 @@ namespace ZL.Poem.ConsoleClient
         /// </summary>
         public override void PreInitialize()
         {
-            Configuration.DefaultNameOrConnectionString="Server=localhost; Database=PoemNew; Trusted_Connection=True;";
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(config=>
+            {
+                config.CreateMap<Core.Poems.Poem,PoemDto>().ForMember(x=>x.AuthorName,opt=>
+                    opt.MapFrom(x=>x.Author.Name));
+            });
             base.PreInitialize();
         }
 
