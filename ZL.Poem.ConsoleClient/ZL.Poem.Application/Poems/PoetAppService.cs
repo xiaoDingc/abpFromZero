@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Security.Cryptography.X509Certificates;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using AutoMapper;
@@ -16,6 +18,8 @@ namespace ZL.Poem.Application.Poems
     {
         private readonly IRepository<Poet> _poetRepository;
 
+        private  readonly  IRepository<Category> _categoryRepository;
+
         private readonly IRepository<Core.Poems.Poem> _poemRepository;
 
         /// <summary>
@@ -23,10 +27,11 @@ namespace ZL.Poem.Application.Poems
         /// </summary>
         /// <param name="poetRepository"></param>
         /// <param name="poemRepository"></param>
-        public PoetAppService(IRepository<Poet> poetRepository, IRepository<Core.Poems.Poem> poemRepository)
+        public PoetAppService(IRepository<Poet> poetRepository, IRepository<Core.Poems.Poem> poemRepository, IRepository<Category> categoryRepository)
         {
             _poetRepository = poetRepository;
             _poemRepository = poemRepository;
+            _categoryRepository = categoryRepository;
         }
 
 
@@ -75,6 +80,41 @@ namespace ZL.Poem.Application.Poems
                 TotalCount = count,
                 //  Items = lst.MapTo<List<PoemDto>>(),
                 Items = ObjectMapper.Map<List<PoemDto>>(lst)
+            };
+        }
+
+        /// <summary>
+        /// 按条件查询诗人
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public PagedResultDto<PoetDto> SearchPoets(SearchPoetDto dto)
+        {
+            var res=_poetRepository.GetAllList().Skip(dto.SkipCount).Take(dto.MaxResultCount)
+                .WhereIf(!string.IsNullOrEmpty(dto.Keyword),x=>x.Name.Contains(dto.Keyword))
+                .ToList();
+            var count=res.Count();
+
+            return new PagedResultDto<PoetDto>()
+            {
+                Items = ObjectMapper.Map<List<PoetDto>>(res),
+                TotalCount = count
+            };
+        }
+
+        /// <summary>
+        /// 获取诗所有仓库
+        /// </summary>
+        /// <returns></returns>
+        public PagedResultDto<CategoryDto> GetAllCategories()
+        {
+            var count=_categoryRepository.Count();
+            var lst=_categoryRepository.GetAllList();
+
+            return new PagedResultDto<CategoryDto>
+            {
+                TotalCount = count,
+                Items = ObjectMapper.Map<List<CategoryDto>>(lst)
             };
         }
     }

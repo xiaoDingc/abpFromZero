@@ -55,7 +55,6 @@ namespace ZL.Poem.WebApi
 
             app.UseAbp();
             app.UseCors("cors");
-
              #region Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>

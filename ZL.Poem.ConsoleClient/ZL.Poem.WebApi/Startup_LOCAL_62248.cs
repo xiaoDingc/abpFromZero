@@ -29,11 +29,7 @@ namespace ZL.Poem.WebApi
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-           //config Cors
-            services.AddCors(opt=>
-            {
-                opt.AddPolicy("cors",policy=>policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
-            });
+            services.AddCors(cors=>cors.AddPolicy("cors",policy=>policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials()));
             #region Swagger
             services.AddSwaggerGen(c =>
             {
@@ -55,16 +51,6 @@ namespace ZL.Poem.WebApi
 
             app.UseAbp();
             app.UseCors("cors");
-
-             #region Swagger
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
-            });
-
-            #endregion
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,13 +60,32 @@ namespace ZL.Poem.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //使用静态文件
-            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
             app.UseMvc();
-      
-           
+            //
+            //            lifetime.ApplicationStarted.Register(()=>
+            //            {
+            //                Console.WriteLine("started:....");
+            //            });
+            //
+            //            lifetime.ApplicationStopped.Register(()=>
+            //            {
+            //                Console.WriteLine("stopped.....");
+            //            });
+            //            lifetime.ApplicationStopping.Register(()=>
+            //            {
+            //                Console.WriteLine("Stopping...");
+            //            });
+
+            #region Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
+            });
+
+            #endregion
         }
     }
 }
