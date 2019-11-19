@@ -1,5 +1,7 @@
-﻿using Abp.Application.Services;
+﻿using System.Collections.Generic;
+using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using ZL.Poem.Core.Poems;
 
 namespace ZL.Poem.Application.Poems
 {
@@ -18,5 +20,18 @@ namespace ZL.Poem.Application.Poems
         /// <param name="dto"></param>
         /// <returns></returns>
         PagedResultDto<PoemDto> SearchPoems(SearchPoemDto dto);
+
+        /// <summary>
+        /// 按条件查询诗人
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        PagedResultDto<PoetDto> SearchPoets(SearchPoetDto dto);
+
+        /// <summary>
+        /// 获取诗所有仓库
+        /// </summary>
+        /// <returns></returns>
+        PagedResultDto<CategoryDto> GetAllCategories();
     }
 }
