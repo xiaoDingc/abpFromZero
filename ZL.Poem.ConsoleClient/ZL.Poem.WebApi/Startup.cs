@@ -29,7 +29,11 @@ namespace ZL.Poem.WebApi
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+           //config Cors
+            services.AddCors(opt=>
+            {
+                opt.AddPolicy("cors",policy=>policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            });
             #region Swagger
             services.AddSwaggerGen(c =>
             {
@@ -50,7 +54,7 @@ namespace ZL.Poem.WebApi
         {
 
             app.UseAbp();
-
+            app.UseCors("cors");
              #region Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
