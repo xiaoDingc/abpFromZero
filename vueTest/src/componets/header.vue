@@ -11,7 +11,7 @@
         </ul>
         <ul>
             <li v-for="(item,index) of categorys" :key="index">
-                    {{item.categoryName}}
+                {{item.categoryName}}
             </li>
         </ul>
     </div>
@@ -25,7 +25,7 @@
             return {
                 msg: 'this is msg',
                 list: [],
-                categorys:[],
+                categorys: [],
             }
         },
         store,
@@ -44,19 +44,19 @@
         },
         methods: {
             testEvent() {
-                let url="http://localhost:57407/api/services/app/Poet/GetAllCategories";
+                let url = "http://localhost:57407/api/services/app/Poet/GetAllCategories";
                 this.axios.post(url)
-                .then(res=>{
-                    console.log(res);
-                    this.categorys=res.data.result.items;
-                })
+                    .then(res => {
+                        console.log(res);
+                        this.categorys = res.data.result.items;
+                    })
                 // vueEvent.$emit("to-End",this.msg);
                 this.$store.commit('incre');
                 console.log("点击完成")
             },
-            testDec(){
+            testDec() {
                 //this.$store.commit("decre",5);
-                this.$store.dispatch("decre",3);
+                this.$store.dispatch("decre", 3);
             }
         }
     }
